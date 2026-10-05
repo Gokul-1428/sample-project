@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+
+<body style="
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+">
+
+    <!-- Login Card -->
+    <div style="
+        width:350px;
+        background:white;
+        padding:40px;
+        border-radius:20px;
+        box-shadow:0 15px 40px rgba(0,0,0,0.3);
+    ">
+
+        <h1 style="
+            text-align:center;
+            margin:0 0 10px 0;
+            color:#1e293b;
+        ">
+            Welcome Back
+        </h1>
+
+        <p style="
+            text-align:center;
+            color:#64748b;
+            margin-bottom:30px;
+        ">
+            Login to your account
+        </p>
+
+        <!-- Email -->
+        <label style="
+            display:block;
+            margin-bottom:8px;
+            color:#334155;
+            font-weight:bold;
+        ">
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            style="
+                width:100%;
+                padding:13px;
+                box-sizing:border-box;
+                border:1px solid #cbd5e1;
+                border-radius:8px;
+                outline:none;
+                margin-bottom:20px;
+                font-size:14px;
+            "
+            onfocus="this.style.borderColor='#2563eb'"
+            onblur="this.style.borderColor='#cbd5e1'"
+        >
+
+        <!-- Password -->
+        <label style="
+            display:block;
+            margin-bottom:8px;
+            color:#334155;
+            font-weight:bold;
+        ">
+            Password
+        </label>
+
+        <div style="position:relative;">
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                style="
+                    width:100%;
+                    padding:13px;
+                    padding-right:60px;
+                    box-sizing:border-box;
+                    border:1px solid #cbd5e1;
+                    border-radius:8px;
+                    outline:none;
+                    font-size:14px;
+                "
+                onfocus="this.style.borderColor='#2563eb'"
+                onblur="this.style.borderColor='#cbd5e1'"
+            >
+
+            <button
+                type="button"
+                onclick="togglePassword()"
+                style="
+                    position:absolute;
+                    right:8px;
+                    top:8px;
+                    border:none;
+                    background:none;
+                    color:#2563eb;
+                    cursor:pointer;
+                    padding:5px;
+                "
+            >
+                Show
+            </button>
+        </div>
+
+        <!-- Remember / Forgot -->
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin:18px 0;
+            font-size:13px;
+        ">
+
+            <label style="color:#475569;">
+                <input type="checkbox" id="remember">
+                Remember me
+            </label>
+
+            <a
+                href="#"
+                onclick="forgotPassword()"
+                style="
+                    color:#2563eb;
+                    text-decoration:none;
+                "
+            >
+                Forgot Password?
+            </a>
+        </div>
+
+        <!-- Login Button -->
+        <button
+            onclick="login()"
+            style="
+                width:100%;
+                padding:14px;
+                border:none;
+                border-radius:8px;
+                background:#2563eb;
+                color:white;
+                font-size:16px;
+                font-weight:bold;
+                cursor:pointer;
+                transition:0.3s;
+            "
+            onmouseover="this.style.background='#1d4ed8'"
+            onmouseout="this.style.background='#2563eb'"
+        >
+            Login
+        </button>
+
+        <!-- Message -->
+        <p
+            id="message"
+            style="
+                text-align:center;
+                margin-top:15px;
+                font-size:14px;
+            "
+        ></p>
+
+        <!-- Register -->
+        <p style="
+            text-align:center;
+            color:#64748b;
+            font-size:14px;
+            margin-top:25px;
+        ">
+            Don't have an account?
+            <a
+                href="#"
+                onclick="register()"
+                style="
+                    color:#2563eb;
+                    font-weight:bold;
+                    text-decoration:none;
+                "
+            >
+                Sign Up
+            </a>
+        </p>
+
+    </div>
+
+
+    <script>
+
+        // Show / Hide Password
+        function togglePassword() {
+
+            const password = document.getElementById("password");
+            const button = event.target;
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.innerText = "Hide";
+            } else {
+                password.type = "password";
+                button.innerText = "Show";
+            }
+        }
+
+
+        // Login Function
+        function login() {
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const message = document.getElementById("message");
+
+            if (email === "" || password === "") {
+
+                message.innerText = "Please enter email and password.";
+                message.style.color = "#dc2626";
+                return;
+            }
+
+            // Simple email validation
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+
+                message.innerText = "Please enter a valid email.";
+                message.style.color = "#dc2626";
+                return;
+            }
+
+            if (password.length < 6) {
+
+                message.innerText =
+                    "Password must contain at least 6 characters.";
+
+                message.style.color = "#dc2626";
+                return;
+            }
+
+            // Demo login
+            message.innerText = "Login successful!";
+            message.style.color = "#16a34a";
+
+            console.log("Email:", email);
+            console.log("Password:", password);
+
+            /*
+              For real login, send the credentials
+              to your backend using fetch(), for example:
+
+              fetch("/api/login", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                      email: email,
+                      password: password
+                  })
+              });
+            */
+        }
+
+
+        // Forgot Password
+        function forgotPassword() {
+
+            const email = document.getElementById("email").value.trim();
+
+            if (email === "") {
+                alert("Please enter your email first.");
+            } else {
+                alert("Password reset link will be sent to " + email);
+            }
+        }
+
+
+        // Register
+        function register() {
+            alert("Redirecting to registration page...");
+            // window.location.href = "register.html";
+        }
+
+    </script>
+
+</body>
+</html>
